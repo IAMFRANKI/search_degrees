@@ -91,29 +91,20 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
-    # Initialize a queue for BFS
     frontier = QueueFrontier()
 
-    # Initialize a set to keep track of visited persons
     visited = set()
 
-    # Add the source person to the frontier
     frontier.add(Node(state=source, parent=None, action=None))
 
-    # Keep looping until the frontier is empty
     while not frontier.empty():
-        # Get the current node from the frontier
         current_node = frontier.remove()
 
-        # Get the current person from the current node's state
         current_person = current_node.state
 
-        # Mark the current person as visited
         visited.add(current_person)
 
-        # Check if the current person is the target
         if current_person == target:
-            # If yes, reconstruct the path and return it
             path = []
             while current_node.parent is not None:
                 path.append((current_node.action, current_node.state))
@@ -121,12 +112,10 @@ def shortest_path(source, target):
             path.reverse()
             return path
 
-        # Explore neighbors (movies and co-stars) of the current person
         for movie_id, person_id in neighbors_for_person(current_person):
             if person_id not in visited:
                 frontier.add(Node(state=person_id, parent=current_node, action=movie_id))
 
-    # If no path is found, return None
     return None
 
 
